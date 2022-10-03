@@ -1,0 +1,46 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: all 0.35s ease-in-out;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  min-height: 100vh;
+}
+
+/* hover */
+.theme {
+  --color-primary: hsl(0deg, 0%, 98%);
+  --color-secondary: hsl(236deg, 33%, 92%);
+  --color-tertiary: hsl(233deg, 11%, 84%);
+  --color-quaternary: hsl(236deg, 9%, 61%);
+  --color-quinary: hsl(235deg, 19%, 35%);
+  --color-hover: hsl(236deg, 33%, 92%);
+  background-color: var(--color-primary);
+}
+.theme .header {
+  height: 40vh;
+  background-image: url("./images/bg-desktop-light.jpg");
+}
+.theme--dark {
+  --color-primary: hsl(235deg, 21%, 11%);
+  --color-secondary: hsl(235deg, 24%, 19%);
+  --color-tertiary: hsl(234deg, 39%, 85%);
+  --color-quaternary: hsl(234deg, 11%, 52%);
+  --color-quinary: hsl(237deg, 14%, 26%);
+  --color-hover: hsl(236deg, 33%, 92%);
+  background-color: var(--color-primary);
+}
+.theme--dark .header {
+  height: 40vh;
+  background-image: url("./images/bg-desktop-dark.jpg");
+}
+
+/*# sourceMappingURL=styles.css.map */

@@ -1,0 +1,25 @@
+// Colors General
+$bblue: hsl(220, 98%, 61%);
+$gradient-check: linear-gradient hsl(192, 100%, 67%) to hsl(280, 87%, 65%);
+
+// breakpoints
+$breakpoints: (
+  "desktop": 1350px,
+  "tablet": 800px,
+  "mobile": 450px,
+);
+
+@function getBreakpoint($breakpoint) {
+  @return map-get($breakpoints, #{$breakpoint});
+}
+
+// fontsizes
+$font-sizes: (
+  "large": clamp(2.5rem, 2.8rem + 1vw, 3.5rem),
+  "medium": clamp(1.8rem, 2rem + 1vw, 2.7rem),
+  "small": clamp(1.4rem, 1.6rem + 1vw, 2.2rem),
+);
+
+@function getFontsize($font-size) {
+  @return map-get($font-sizes, #{$font-size});
+}

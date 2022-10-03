@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="./images/favicon-32x32.png">
+  <title>Frontend Mentor | Todo app</title>
+  <link rel="stylesheet" href="./styles.css">
+  <!-- Fontawsome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+    integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body class="theme">
+  <header class="header"></header>
+  <main class="app">
+    <div class="app__header">
+      <h1 class="app__header__title">T</h1>
+      <span class="app__header__toggle"><i class="fa-solid fa-moon"></i></span>
+    </div>
+    <input type="text" class="app__input" placeholder="Create a new todo...">
+    <div class="app__box">
+      <ul class="app__box__list">
+      </ul>
+      <div class="app__box__description">
+        <div class="app__box__description__left">? items left</div>
+        <div class="app__box__description__states">
+          <div class="app__box__description__states__all">all</div>
+          <div class="app__box__description__states__active">active</div>
+          <div class="app__box__description__states__completed">completed</div>
+        </div>
+        <div class="app__box__description__clear">clear completed</div>
+      </div>
+    </div>
+  </main>
+  <section class="background"></section>
+</body>
+<script src="./main.js"></script>
+
+</html>
