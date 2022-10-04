@@ -24,11 +24,17 @@ $very-dark-grayish-blue-dark: hsl(237, 14%, 26%);
   --color-quinary: #{$very-dark-grayish-blue};
   --color-hover: #{$light-grayish-blue-hover};
 
-  background-color: var(--color-primary);
-
-  .header {
+  & .header {
+    position: relative;
     height: 40vh;
+    width: 100%;
     background-image: url("./images/bg-desktop-light.jpg");
+  }
+
+  & section {
+    min-height: 60vh;
+    width: 100%;
+    background-color: var(--color-primary);
   }
 
   &--dark {
@@ -41,9 +47,16 @@ $very-dark-grayish-blue-dark: hsl(237, 14%, 26%);
 
     background-color: var(--color-primary);
 
-    .header {
+    & .header {
+      position: relative;
       height: 40vh;
       background-image: url("./images/bg-desktop-dark.jpg");
+    }
+
+    & section {
+      min-height: 60vh;
+      width: 100%;
+      background-color: var(--color-primary);
     }
   }
 }

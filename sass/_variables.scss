@@ -15,9 +15,9 @@ $breakpoints: (
 
 // fontsizes
 $font-sizes: (
-  "large": clamp(2.5rem, 2.8rem + 1vw, 3.5rem),
-  "medium": clamp(1.8rem, 2rem + 1vw, 2.7rem),
-  "small": clamp(1.4rem, 1.6rem + 1vw, 2.2rem),
+  "large": clamp(2.2rem, 0.2000rem + 4.0000vw, 4.2rem),
+  "medium":clamp(1.4rem, 1.0000rem + 0.8000vw, 1.8rem),
+  "small": clamp(1.2rem, 0.8000rem + 0.8000vw, 1.6rem),
 );
 
 @function getFontsize($font-size) {
