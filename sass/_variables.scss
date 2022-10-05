@@ -1,6 +1,9 @@
 // Colors General
 $bblue: hsl(220, 98%, 61%);
-$gradient-check: linear-gradient hsl(192, 100%, 67%) to hsl(280, 87%, 65%);
+$gradient-check: linear-gradient(
+  to right,
+  hsl(192, 100%, 67%), hsl(280, 87%, 65%)
+);
 
 // breakpoints
 $breakpoints: (
@@ -15,9 +18,9 @@ $breakpoints: (
 
 // fontsizes
 $font-sizes: (
-  "large": clamp(2.2rem, 0.2000rem + 4.0000vw, 4.2rem),
-  "medium":clamp(1.4rem, 1.0000rem + 0.8000vw, 1.8rem),
-  "small": clamp(1.2rem, 0.8000rem + 0.8000vw, 1.6rem),
+  "large": clamp(2.2rem, 0.2rem + 4vw, 4.2rem),
+  "medium": clamp(1.4rem, 1rem + 0.8vw, 1.8rem),
+  "small": clamp(1.2rem, 0.8rem + 0.8vw, 1.6rem),
 );
 
 @function getFontsize($font-size) {

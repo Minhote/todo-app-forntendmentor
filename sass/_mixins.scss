@@ -1,5 +1,27 @@
+@use "variables" as *;
+
 @mixin min-query($breakpoint) {
   @media (min-width: #{$breakpoint}) {
     @content;
+  }
+}
+
+%circle {
+  display: inline-flex;
+  height: 15px;
+  width: 15px;
+  border-radius: 100%;
+  background: var(--color-hover);
+  position: relative;
+  align-items: center;
+  justify-content: center;
+
+  &::after {
+    content: "";
+    width: calc(100% - 2px);
+    height: calc(100% - 2px);
+    z-index: 1;
+    border-radius: 100%;
+    background-color: var(--color-primary);
   }
 }
