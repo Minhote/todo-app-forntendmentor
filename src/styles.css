@@ -60,8 +60,8 @@ body {
 
 .app__bar__wrap__icon, .app__box__list__item__wrap__icon {
   display: inline-flex;
-  height: 15px;
-  width: 15px;
+  height: 25px;
+  width: 25px;
   border-radius: 100%;
   background: var(--color-hover);
   position: relative;
@@ -121,6 +121,7 @@ body {
   outline: none;
   border: none;
   flex-grow: 1;
+  color: var(--color-quaternary);
 }
 .app__bar__input:focus {
   color: var(--color-quaternary);
@@ -133,6 +134,7 @@ body {
   gap: 1rem;
   border-radius: 4px;
   background-color: var(--color-primary);
+  color: var(--color-quaternary);
   box-shadow: 0px 4px 4px 1px rgba(0, 0, 0, 0.1);
   padding-bottom: 0.2rem;
 }
@@ -140,7 +142,7 @@ body {
   min-height: 10vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   font-size: clamp(1.4rem, 1rem + 0.8vw, 1.8rem);
   padding: 2rem;
   gap: 2rem;
@@ -151,6 +153,26 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 2rem;
+  width: 100%;
+  padding: 1rem 0;
+}
+.app__box__list__item:hover .app__box__list__item__delete {
+  cursor: pointer;
+  display: block;
+}
+.app__box__list__item__wrap__icon__check {
+  display: none;
+  width: 15px;
+  height: 15px;
+}
+.app__box__list__item__wrap__icon.checked {
+  background: linear-gradient(to right, hsl(192deg, 100%, 67%), hsl(280deg, 87%, 65%));
+}
+.app__box__list__item__wrap__icon.checked .app__box__list__item__wrap__icon__check {
+  display: block;
+}
+.app__box__list__item__wrap__icon.checked::after {
+  display: none;
 }
 .app__box__list__item__wrap:hover > span {
   background: linear-gradient(to right, hsl(192deg, 100%, 67%), hsl(280deg, 87%, 65%));
@@ -158,11 +180,13 @@ body {
 }
 .app__box__list__item__task {
   flex-grow: 1;
-  color: var(--color-quaternary);
   font-size: clamp(1.4rem, 1rem + 0.8vw, 1.8rem);
 }
 .app__box__list__item__task:hover {
   cursor: pointer;
+}
+.app__box__list__item__delete {
+  display: none;
 }
 .app__box__description {
   display: flex;
