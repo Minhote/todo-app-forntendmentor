@@ -195,6 +195,12 @@ body {
 .app__box__list__item__delete {
   display: none;
 }
+.app__box__list__item__delete.selected {
+  visibility: hidden;
+}
+.app__box__list__item__msg {
+  list-style: none;
+}
 .app__box__description {
   display: flex;
   align-items: center;

@@ -147,6 +147,14 @@
         &__delete {
           display: none;
         }
+
+        &__delete.selected{
+          visibility: hidden;
+        }
+      }
+
+      &__item__msg{
+        list-style: none;
       }
     }
 

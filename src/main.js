@@ -67,28 +67,30 @@ function howTaksLeft() {
 
 // Check or Uncheck
 ul.addEventListener("click", (e) => {
-  if (e.target.classList.contains("app__box__list__item__wrap__icon")) {
-    e.target.classList.toggle("checked");
-    e.target.parentElement.nextElementSibling.classList.toggle("checked");
-    e.target.parentElement.parentElement.classList.toggle("checked");
-    howTaksLeft();
-  } else if (
-    e.target.classList.contains("app__box__list__item__wrap__icon__check")
-  ) {
-    e.target.parentElement.classList.toggle("checked");
-    e.target.parentElement.parentElement.nextElementSibling.classList.toggle(
-      "checked"
-    );
-    e.target.parentElement.parentElement.parentElement.classList.toggle(
-      "checked"
-    );
-    howTaksLeft();
-  } else if (
-    e.target.classList.contains("app__box__list__item__delete__cross")
-  ) {
-    ul.removeChild(e.target.parentElement.parentElement);
-    howTaksLeft();
-    emtptyOrNot();
+  if (stateBox.children[0].classList.contains("active")) {
+    if (e.target.classList.contains("app__box__list__item__wrap__icon")) {
+      e.target.classList.toggle("checked");
+      e.target.parentElement.nextElementSibling.classList.toggle("checked");
+      e.target.parentElement.parentElement.classList.toggle("checked");
+      howTaksLeft();
+    } else if (
+      e.target.classList.contains("app__box__list__item__wrap__icon__check")
+    ) {
+      e.target.parentElement.classList.toggle("checked");
+      e.target.parentElement.parentElement.nextElementSibling.classList.toggle(
+        "checked"
+      );
+      e.target.parentElement.parentElement.parentElement.classList.toggle(
+        "checked"
+      );
+      howTaksLeft();
+    } else if (
+      e.target.classList.contains("app__box__list__item__delete__cross")
+    ) {
+      ul.removeChild(e.target.parentElement.parentElement);
+      howTaksLeft();
+      emtptyOrNot();
+    }
   }
 });
 
@@ -98,6 +100,11 @@ stateBox.addEventListener("click", (e) => {
   if (e.target.classList.contains("app__box__description__states__all")) {
     [...ul.children].map((el) => {
       el.style.display = "flex";
+      if (el.classList.contains("app__box__list__item__msg")) {
+        ul.removeChild(el);
+      }
+
+      el.lastElementChild.classList.remove("selected");
     });
     [...stateBox.children].map((el) => {
       el.classList.remove("active");
@@ -107,38 +114,86 @@ stateBox.addEventListener("click", (e) => {
     e.target.classList.contains("app__box__description__states__active")
   ) {
     [...ul.children].map((el) => {
+      if (el.classList.contains("app__box__list__item__msg")) {
+        ul.removeChild(el);
+      }
+
       if (el.classList.contains("checked")) {
         el.style.display = "none";
       } else if (!el.classList.contains("checked")) {
         el.style.display = "flex";
       }
+
+      el.lastElementChild.classList.add("selected");
     });
+
     [...stateBox.children].map((el) => {
       el.classList.remove("active");
     });
+
     e.target.classList.add("active");
+
+    if ([...ul.children].every((el) => el.style.display == "none")) {
+      let node = `
+      <li class="app__box__list__item__msg">
+        <p class="app__box__list__item__msg-active">You do not have any task pending</p>
+      </li>
+      `;
+      ul.insertAdjacentHTML("beforeend", node);
+    }
   } else if (
     e.target.classList.contains("app__box__description__states__completed")
   ) {
     [...ul.children].map((el) => {
+      if (el.classList.contains("app__box__list__item__msg")) {
+        ul.removeChild(el);
+      }
+
       if (!el.classList.contains("checked")) {
         el.style.display = "none";
       } else if (el.classList.contains("checked")) {
         el.style.display = "flex";
       }
+
+      el.lastElementChild.classList.add("selected");
     });
+
     [...stateBox.children].map((el) => {
       el.classList.remove("active");
     });
     e.target.classList.add("active");
+
+    if ([...ul.children].every((el) => el.style.display == "none")) {
+      let node = `
+      <li class="app__box__list__item__msg">
+        <p class="app__box__list__item__msg-completed">You do not have any task completed</p>
+      </li>
+      `;
+      ul.insertAdjacentHTML("beforeend", node);
+    }
   }
 });
 
 //Clear all the tasks completed
 clear.addEventListener("click", () => {
+  [...stateBox.children].map((el) => el.classList.remove("active"));
+  stateBox.children[0].classList.add("active");
+
   [...ul.children].map((el) => {
+    if (el.classList.contains("app__box__list__item__msg")) {
+      ul.removeChild(el);
+    }
+
     if (el.classList.contains("checked")) {
       ul.removeChild(el);
     }
+
+    if (!el.classList.contains("checked")) {
+      el.style.display = "flex";
+    }
   });
+
+  if (ul.innerText == "") {
+    emtptyOrNot();
+  }
 });
