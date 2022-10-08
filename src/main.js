@@ -7,6 +7,9 @@ let body = document.querySelector("body");
 let tasksLeft = document.querySelector(".app__box__description__left > span");
 let stateBox = document.querySelector(".app__box__description__states");
 let clear = document.querySelector(".app__box__description__clear");
+let numberTask = 0;
+let localTasks = Object.entries(window.localStorage) || []
+console.log(localTasks);
 
 // Fill the list
 function emtptyOrNot() {
@@ -24,10 +27,11 @@ emtptyOrNot();
 input.addEventListener("keyup", (e) => {
   if (e.keyCode == 13 && e.target.value != "") {
     emtptyOrNot();
+    numberTask += 1;
     ul.insertAdjacentHTML(
       "beforeend",
       `
-    <li class="app__box__list__item">
+    <li class="app__box__list__item" data-key=${numberTask}>
       <div class="app__box__list__item__wrap">
         <span class="app__box__list__item__wrap__icon"><img class="app__box__list__item__wrap__icon__check" src="./images/icon-check.svg"></span>
       </div> 
@@ -38,6 +42,13 @@ input.addEventListener("keyup", (e) => {
     </li>
   `
     );
+
+    // Guardar task en local storage
+    window.localStorage.setItem(
+      `task-${numberTask}`,
+      JSON.stringify({ checked: "false", task: `${e.target.value}` })
+    );
+
     e.target.value = "";
     tasksLeft.innerText = parseInt(tasksLeft.innerText) + 1;
   }
@@ -49,14 +60,19 @@ toggle.addEventListener("click", () => {
   if (icon.classList.contains("fa-moon")) {
     icon.classList.remove("fa-moon");
     icon.classList.add("fa-sun");
+
+    // Guardar theme en local storage
+    window.localStorage.setItem("theme", "light");
   } else {
     icon.classList.remove("fa-sun");
     icon.classList.add("fa-moon");
+
+    // Guardar theme en local storage
+    window.localStorage.setItem("theme", "dark");
   }
 });
 
 // Check how taks left
-
 function howTaksLeft() {
   let number = 0;
   for (let li of [...ul.children]) {
@@ -72,6 +88,18 @@ ul.addEventListener("click", (e) => {
       e.target.classList.toggle("checked");
       e.target.parentElement.nextElementSibling.classList.toggle("checked");
       e.target.parentElement.parentElement.classList.toggle("checked");
+
+      // Reload in Localstorage
+      window.localStorage.setItem(
+        `task-${e.target.parentElement.parentElement.dataset.key}`,
+        JSON.stringify({
+          checked: `${e.target.parentElement.parentElement.classList.contains(
+            "checked"
+          )}`,
+          task: `${e.target.parentElement.parentElement.innerText}`,
+        })
+      );
+
       howTaksLeft();
     } else if (
       e.target.classList.contains("app__box__list__item__wrap__icon__check")
@@ -83,11 +111,29 @@ ul.addEventListener("click", (e) => {
       e.target.parentElement.parentElement.parentElement.classList.toggle(
         "checked"
       );
+
+      // Reload in Localstorage
+      window.localStorage.setItem(
+        `task-${e.target.parentElement.parentElement.parentElement.dataset.key}`,
+        JSON.stringify({
+          checked: `${e.target.parentElement.parentElement.parentElement.classList.contains(
+            "checked"
+          )}`,
+          task: `${e.target.parentElement.parentElement.parentElement.innerText}`,
+        })
+      );
+
       howTaksLeft();
     } else if (
       e.target.classList.contains("app__box__list__item__delete__cross")
     ) {
       ul.removeChild(e.target.parentElement.parentElement);
+
+      // Reload in Localstorage
+      window.localStorage.removeItem(
+        `task-${e.target.parentElement.parentElement.dataset.key}`
+      );
+
       howTaksLeft();
       emtptyOrNot();
     }
@@ -196,4 +242,25 @@ clear.addEventListener("click", () => {
   if (ul.innerText == "") {
     emtptyOrNot();
   }
+
+  // Check if exist any taks completed to errase
+  if (
+    Object.values(JSON.parse(JSON.stringify(window.localStorage)))
+      .map((el) => {
+        return JSON.parse(el);
+      })
+      .some((e) => e.checked == "true")
+  ) {
+    // Delete the tasks completed
+    for (let i = 0; i <= window.localStorage.length; i++) {
+      if (
+        JSON.parse(window.localStorage.getItem(`task-${i + 1}`)).checked ==
+        "true"
+      ) {
+        window.localStorage.removeItem(`task-${i + 1}`);
+      }
+    }
+  }
 });
+
+//window.localStorage.clear();
