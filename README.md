@@ -28,7 +28,7 @@ Users should be able to:
 
 ### Links
 
-- Live Site URL: [Add live site URL here](https://todo-app-forntendmentor.vercel.app/)
+- Live Site URL: [site](https://todo-app-forntendmentor.vercel.app/)
 
 ## My process
 
