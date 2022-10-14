@@ -12,6 +12,14 @@
   gap: 2rem;
   font-family: "Josefin Sans", sans-serif;
 
+  @include media-query(getBreakpoint("tablet")) {
+    width: calc(400px + 1vw);
+  }
+
+  @include media-query(getBreakpoint("mobile")) {
+    width: calc(300px + 1vw);
+  }
+
   &__header {
     display: flex;
     justify-content: space-between;
@@ -148,12 +156,12 @@
           display: none;
         }
 
-        &__delete.selected{
+        &__delete.selected {
           visibility: hidden;
         }
       }
 
-      &__item__msg{
+      &__item__msg {
         list-style: none;
       }
     }
@@ -165,6 +173,11 @@
       font-size: getFontsize("small");
       padding: 0 1rem;
       color: var(--color-quaternary);
+
+      @include media-query(getBreakpoint("mobile")) {
+        flex-direction: column;
+        gap: 2rem;
+      }
 
       &__states {
         display: flex;

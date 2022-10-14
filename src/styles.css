@@ -90,6 +90,16 @@ body {
   gap: 2rem;
   font-family: "Josefin Sans", sans-serif;
 }
+@media (max-width: 800px) {
+  .app {
+    width: calc(400px + 1vw);
+  }
+}
+@media (max-width: 450px) {
+  .app {
+    width: calc(300px + 1vw);
+  }
+}
 .app__header {
   display: flex;
   justify-content: space-between;
@@ -208,6 +218,12 @@ body {
   font-size: clamp(1.2rem, 0.8rem + 0.8vw, 1.6rem);
   padding: 0 1rem;
   color: var(--color-quaternary);
+}
+@media (max-width: 450px) {
+  .app__box__description {
+    flex-direction: column;
+    gap: 2rem;
+  }
 }
 .app__box__description__states {
   display: flex;
