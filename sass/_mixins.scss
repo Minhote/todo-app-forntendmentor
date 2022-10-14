@@ -1,7 +1,7 @@
 @use "variables" as *;
 
-@mixin min-query($breakpoint) {
-  @media (min-width: #{$breakpoint}) {
+@mixin media-query($breakpoint) {
+  @media (max-width: #{$breakpoint}) {
     @content;
   }
 }
