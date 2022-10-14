@@ -7,9 +7,21 @@ let body = document.querySelector("body");
 let tasksLeft = document.querySelector(".app__box__description__left > span");
 let stateBox = document.querySelector(".app__box__description__states");
 let clear = document.querySelector(".app__box__description__clear");
-let numberTask = 0;
-let localTasks = Object.entries(window.localStorage) || []
-console.log(localTasks);
+let numberTask = Number(window.localStorage.getItem("idTask")) || 0;
+let localTasks = Object.entries(window.localStorage) || [];
+let theme = window.localStorage.getItem("theme") || "light";
+console.log(localTasks, numberTask, theme);
+
+// Load the theme
+if (theme == "light") {
+  body.classList.remove("theme--dark");
+  icon.classList.remove("fa-sun");
+  icon.classList.add("fa-moon");
+} else {
+  body.classList.add("theme--dark");
+  icon.classList.remove("fa-moon");
+  icon.classList.add("fa-sun");
+}
 
 // Fill the list
 function emtptyOrNot() {
@@ -19,6 +31,68 @@ function emtptyOrNot() {
   } else if (ul.innerText == "Empty List") {
     ul.innerText = "";
   }
+}
+
+// Check how taks left
+function howTaksLeft() {
+  let number = 0;
+  for (let li of [...ul.children]) {
+    li.classList.contains("checked") ? (number += 1) : (number += 0);
+  }
+  tasksLeft.innerText = parseInt(ul.children.length - number);
+}
+
+let order = [];
+if (localTasks.length > 0) {
+  // Hacer macth con los tasks
+  localTasks.map((el) => {
+    if (el[0].match(/(task-\d)/g) != null) {
+      let newStr = el[0].replace(/(task-)/g, "");
+      order.push([newStr, el]);
+    }
+  });
+  order
+    .sort((a, b) => {
+      return Number(a[0]) - Number(b[0]);
+    })
+    .map((el) => {
+      if (JSON.parse(el[1][1]).checked == "false") {
+        ul.insertAdjacentHTML(
+          "beforeend",
+          `
+           <li class="app__box__list__item" data-key=${el[0]}>
+             <div class="app__box__list__item__wrap">
+               <span class="app__box__list__item__wrap__icon"><img class="app__box__list__item__wrap__icon__check" src="./images/icon-check.svg"></span>
+                </div>
+                <p class="app__box__list__item__task">${
+                  JSON.parse(el[1][1]).task
+                }</p>
+                <div class="app__box__list__item__delete">
+                  <img class="app__box__list__item__delete__cross" src="./images/icon-cross.svg">
+                </div>
+              </li>
+            `
+        );
+      } else {
+        ul.insertAdjacentHTML(
+          "beforeend",
+          `
+           <li class="app__box__list__item checked" data-key=${el[0]}>
+             <div class="app__box__list__item__wrap">
+               <span class="app__box__list__item__wrap__icon checked"><img class="app__box__list__item__wrap__icon__check" src="./images/icon-check.svg"></span>
+                </div>
+                <p class="app__box__list__item__task checked">${
+                  JSON.parse(el[1][1]).task
+                }</p>
+                <div class="app__box__list__item__delete">
+                  <img class="app__box__list__item__delete__cross" src="./images/icon-cross.svg">
+                </div>
+              </li>
+            `
+        );
+      }
+    });
+  howTaksLeft();
 }
 
 emtptyOrNot();
@@ -49,6 +123,9 @@ input.addEventListener("keyup", (e) => {
       JSON.stringify({ checked: "false", task: `${e.target.value}` })
     );
 
+    // Guardar el ultimo id task
+    window.localStorage.setItem("idTask", String(numberTask));
+
     e.target.value = "";
     tasksLeft.innerText = parseInt(tasksLeft.innerText) + 1;
   }
@@ -60,26 +137,18 @@ toggle.addEventListener("click", () => {
   if (icon.classList.contains("fa-moon")) {
     icon.classList.remove("fa-moon");
     icon.classList.add("fa-sun");
-
-    // Guardar theme en local storage
-    window.localStorage.setItem("theme", "light");
   } else {
     icon.classList.remove("fa-sun");
     icon.classList.add("fa-moon");
+  }
 
-    // Guardar theme en local storage
+  // Set theme in local Storage
+  if (body.classList.contains("theme--dark")) {
     window.localStorage.setItem("theme", "dark");
+  } else {
+    window.localStorage.setItem("theme", "light");
   }
 });
-
-// Check how taks left
-function howTaksLeft() {
-  let number = 0;
-  for (let li of [...ul.children]) {
-    li.classList.contains("checked") ? (number += 1) : (number += 0);
-  }
-  tasksLeft.innerText = parseInt(ul.children.length - number);
-}
 
 // Check or Uncheck
 ul.addEventListener("click", (e) => {
@@ -133,6 +202,11 @@ ul.addEventListener("click", (e) => {
       window.localStorage.removeItem(
         `task-${e.target.parentElement.parentElement.dataset.key}`
       );
+
+      // Reboot the idtaks if is nessesary
+      if ([...ul.children].length == 0)
+        window.localStorage.removeItem("idTask");
+      numberTask = 0;
 
       howTaksLeft();
       emtptyOrNot();
@@ -243,24 +317,16 @@ clear.addEventListener("click", () => {
     emtptyOrNot();
   }
 
-  // Check if exist any taks completed to errase
-  if (
-    Object.values(JSON.parse(JSON.stringify(window.localStorage)))
-      .map((el) => {
-        return JSON.parse(el);
-      })
-      .some((e) => e.checked == "true")
-  ) {
-    // Delete the tasks completed
-    for (let i = 0; i <= window.localStorage.length; i++) {
-      if (
-        JSON.parse(window.localStorage.getItem(`task-${i + 1}`)).checked ==
-        "true"
-      ) {
-        window.localStorage.removeItem(`task-${i + 1}`);
+  // Remove items completed of localstorage
+  Object.entries(JSON.parse(JSON.stringify(window.localStorage)))
+    .filter((el) => el[1].match(/[{}]/) != null)
+    .map((el) => {
+      if (JSON.parse(el[1]).checked == "true") {
+        window.localStorage.removeItem(el[0]);
       }
-    }
-  }
-});
+    });
 
-//window.localStorage.clear();
+  // Reboot the idtaks if is nessesary
+  if ([...ul.children].length == 0) window.localStorage.removeItem("idTask");
+  numberTask = 0;
+});
